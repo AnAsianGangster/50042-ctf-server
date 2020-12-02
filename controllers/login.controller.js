@@ -1,14 +1,27 @@
-const utilXOR = require('./util/XOR.controllers.util'); // NOTE sample import of naive XOR
+const db = require('../models/index.model');
+
+const utilCheckPwd = require('./util/checkPwd.controllers.util');
 
 exports.loginFunction = (req, res) => {
-    // TODO ctf functions are returned here
+    const groupNumber = req.body.groupNumber;
+    const password = req.body.password;
 
-    // NOTE sample import of naive XOR
-    console.log(utilXOR.XOR(5, 6));
+    const c = db.groups[groupNumber].c;
+    const actualPassword = db.groups[groupNumber].password;
 
-    res.status(200).send({
-        message: 'login end point hit',
-    });
+    // TODO use this checkPwd
+    const checkedPassword = utilCheckPwd.checkPwd(password, actualPassword);
+
+    if (c == checkedPassword) {
+        res.status(200).send({
+            message: 'correct password',
+        });
+    } else {
+        res.status(401).send({
+            checkedPassword: checkedPassword,
+            message: 'incorrect password',
+        });
+    }
 };
 
 exports.editFunction = (req, res) => {
