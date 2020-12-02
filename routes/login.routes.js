@@ -1,12 +1,30 @@
 module.exports = (router) => {
     const CTFFunctions = require('../controllers/login.controller.js');
 
-    // post /login route
+    /**
+     * login with their given password
+     * TODO grant jwt
+     */
     router.post('/login', CTFFunctions.loginFunction);
 
-    // post /edit route
-    router.post('/edit', CTFFunctions.editFunction);
+    /**
+     * verify with their cracked password to get their admin password
+     * correct: proceed
+     * wrong: respond attempt password
+     */
+    router.post('/admin', CTFFunctions.adminFunction);
 
-    // get /profile route
-    router.get('/profile', CTFFunctions.profileFunction);
+    /**
+     * verify with their admin password
+     * correct: proceed
+     * wrong: xor c
+     */
+    router.post('/xor', CTFFunctions.xorFunction)
+
+    /**
+     * verify with their caeser
+     * correct: responde flag
+     * wrong: return randomize text
+     */
+    router.post('/caesar', CTFFunctions.caesarFunction);
 };
