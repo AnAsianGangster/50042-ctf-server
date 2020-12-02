@@ -9,8 +9,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // in memory db
 const db = require('./config/db.config');
 
-console.log(db.groups);
-
 // simple route
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome, this is the root url.' });
