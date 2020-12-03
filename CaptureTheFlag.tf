@@ -116,6 +116,7 @@ resource "aws_instance" "web-server-instance" {
               sudo apt-get -y install git
               sudo apt-get -y install nodejs
               sudo apt-get -y install npm
+              sudo apt-get -y install yarn
               cd /home/ubuntu
               git clone https://github.com/AnAsianGangster/50042-ctf-server.git
               cd 50042-ctf-server/
