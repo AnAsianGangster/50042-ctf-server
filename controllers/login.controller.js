@@ -62,7 +62,7 @@ exports.xorFunction = (req, res) => {
         });
         return;
     } else {
-        res.status({
+        res.status(401).send({
             cipher: cipher,
         });
         return;
