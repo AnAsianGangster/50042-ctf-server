@@ -1,41 +1,95 @@
 const db = require('../models/index.model');
+const crypto = require('crypto');
 
+const utilCaesar = require('./util/caesar.controllers.util');
 const utilCheckPwd = require('./util/checkPwd.controllers.util');
+const utilRandomMap = require('./util/randomMap.controllers.util');
 
 exports.loginFunction = (req, res) => {
     const groupNumber = req.body.groupNumber;
-    const password = req.body.password;
+    const loginPassword = req.body.loginPassword;
 
-    const c = db.groups[groupNumber].c;
-    const actualPassword = db.groups[groupNumber].password;
+    const actualLoginPassword = db.groups[groupNumber].loginPassword;
 
-    // TODO use this checkPwd
-    const checkedPassword = utilCheckPwd.checkPwd(password, actualPassword);
+    var shasum = crypto.createHash('sha1');
+    shasum.update(db.groups[groupNumber].passwordToCrack);
+    HashedPasswordToCrack = shasum.digest('hex');
 
-    if (c == checkedPassword) {
+    if (loginPassword == actualLoginPassword) {
         res.status(200).send({
-            message: 'correct password',
+            HashedPasswordToCrack: HashedPasswordToCrack,
         });
+        return;
     } else {
         res.status(401).send({
-            checkedPassword: checkedPassword,
             message: 'incorrect password',
         });
+        return;
     }
 };
 
-exports.editFunction = (req, res) => {
-    // TODO ctf functions are returned here
+exports.adminFunction = (req, res) => {
+    const groupNumber = req.body.groupNumber;
+    const attemptPasswordToCrack = req.body.attemptPasswordToCrack;
 
-    res.status(200).send({
-        message: 'edit end point hit',
-    });
+    const actualPasswordToCrack = db.groups[groupNumber].passwordToCrack;
+
+    if (attemptPasswordToCrack == actualPasswordToCrack) {
+        res.status(200).send({
+            message: 'proceed',
+        });
+        return;
+    } else {
+        res.status(401).send({
+            message: `${attemptPasswordToCrack} is not the password`,
+        });
+        return;
+    }
 };
 
-exports.profileFunction = (req, res) => {
-    // TODO ctf functions are returned here
+exports.xorFunction = (req, res) => {
+    const groupNumber = req.body.groupNumber;
+    const attemptAdminPassword = req.body.adminPassword;
 
-    res.status(200).send({
-        message: 'profile end point hit',
-    });
+    const actualAdminPassword = db.groups[groupNumber].adminPassword;
+
+    const cipher = utilCheckPwd.checkPwd(attemptAdminPassword, actualAdminPassword);
+
+    if (attemptAdminPassword == actualAdminPassword) {
+        res.status(200).send({
+            message: 'proceed',
+        });
+        return;
+    } else {
+        res.status({
+            cipher: cipher,
+        });
+        return;
+    }
+};
+
+exports.caesarFunction = (req, res) => {
+    const groupNumber = req.body.groupNumber;
+    const attemptCaesarText = req.body.caeserText;
+
+    const actualCaeserText = db.groups[groupNumber].caeserText;
+    const flag = db.groups[groupNumber].flag;
+
+    // TODO some randomize function
+    const alphabetMapping = utilRandomMap.generateMap();
+    const cipher = utilCaesar.generateCaesarText(actualCaeserText, alphabetMapping);
+
+    // console.log(alphabetMapping);
+
+    if (attemptCaesarText == actualCaeserText) {
+        res.status(200).send({
+            flag: flag,
+        });
+        return;
+    } else {
+        res.status(401).send({
+            cipher: cipher,
+        });
+        return;
+    }
 };
