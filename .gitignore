@@ -13,3 +13,6 @@ terraform*
 
 # local credentials
 .aws/
+
+# logs
+info.log
