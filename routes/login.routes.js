@@ -3,16 +3,8 @@ module.exports = (router) => {
 
     /**
      * login with their given password
-     * TODO grant jwt
      */
     router.post('/login', CTFFunctions.loginFunction);
-
-    /**
-     * verify with their cracked password to get their admin password
-     * correct: proceed
-     * wrong: respond attempt password
-     */
-    router.post('/admin', CTFFunctions.adminFunction);
 
     /**
      * verify with their admin password

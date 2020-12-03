@@ -11,13 +11,8 @@ exports.loginFunction = (req, res) => {
 
     const actualLoginPassword = db.groups[groupNumber].loginPassword;
 
-    var shasum = crypto.createHash('sha1');
-    shasum.update(db.groups[groupNumber].passwordToCrack);
-    HashedPasswordToCrack = shasum.digest('hex');
-
     if (loginPassword == actualLoginPassword) {
         res.status(200).send({
-            HashedPasswordToCrack: HashedPasswordToCrack,
             message: 'proceed',
         });
         return;
@@ -29,28 +24,9 @@ exports.loginFunction = (req, res) => {
     }
 };
 
-exports.adminFunction = (req, res) => {
-    const groupNumber = req.body.groupNumber;
-    const attemptPasswordToCrack = req.body.attemptPasswordToCrack;
-
-    const actualPasswordToCrack = db.groups[groupNumber].passwordToCrack;
-
-    if (attemptPasswordToCrack == actualPasswordToCrack) {
-        res.status(200).send({
-            message: 'proceed',
-        });
-        return;
-    } else {
-        res.status(401).send({
-            message: `${attemptPasswordToCrack} is not the password`,
-        });
-        return;
-    }
-};
-
 exports.xorFunction = (req, res) => {
-    const groupNumber = String(req.body.groupNumber);
-    const attemptAdminPassword = String(req.body.adminPassword);
+    const groupNumber = req.body.groupNumber;
+    const attemptAdminPassword = req.body.adminPassword;
 
     const actualAdminPassword = db.groups[groupNumber].adminPassword;
 
@@ -59,11 +35,13 @@ exports.xorFunction = (req, res) => {
     if (cipher == '00000000000000000000000000000000') {
         res.status(200).send({
             message: 'proceed',
+            role: 'admin',
         });
         return;
     } else {
         res.status(401).send({
             cipher: cipher,
+            role: 'user',
         });
         return;
     }
