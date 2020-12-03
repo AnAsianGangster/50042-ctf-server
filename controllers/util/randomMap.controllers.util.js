@@ -79,9 +79,6 @@ exports.generateMap = () => {
 
     const shuffledAlphabet = shuffle(alphabet);
 
-    console.log(alphabet);
-    console.log(shuffledAlphabet);
-
     let randomAlphabetMapping = {};
 
     for (let i = 0; i < originalAlphabet.length; i++) {
