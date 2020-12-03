@@ -6,3 +6,10 @@ yarn.lock
 
 # test file
 requests.rest
+
+# terraform
+.terraform/
+terraform*
+
+# local credentials
+.aws/
