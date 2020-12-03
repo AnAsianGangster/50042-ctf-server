@@ -17,7 +17,7 @@ exports.loginFunction = (req, res) => {
         });
         return;
     } else {
-        res.status(401).send({
+        res.status(250).send({
             message: 'incorrect password',
         });
         return;
@@ -39,7 +39,7 @@ exports.xorFunction = (req, res) => {
         });
         return;
     } else {
-        res.status(401).send({
+        res.status(250).send({
             cipher: cipher,
             role: 'user',
         });
@@ -66,7 +66,7 @@ exports.caesarFunction = (req, res) => {
         });
         return;
     } else {
-        res.status(401).send({
+        res.status(250).send({
             cipher: cipher,
         });
         return;

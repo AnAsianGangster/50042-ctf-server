@@ -115,6 +115,7 @@ resource "aws_instance" "web-server-instance" {
               sudo apt update -y
               sudo apt-get -y install git
               sudo apt-get -y install nodejs
+              sudo apt-get -y install npm
               cd /home/ubuntu
               git clone https://github.com/AnAsianGangster/50042-ctf-server.git
               cd 50042-ctf-server/
