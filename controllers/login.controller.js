@@ -18,6 +18,7 @@ exports.loginFunction = (req, res) => {
     if (loginPassword == actualLoginPassword) {
         res.status(200).send({
             HashedPasswordToCrack: HashedPasswordToCrack,
+            message: 'proceed',
         });
         return;
     } else {
@@ -48,14 +49,14 @@ exports.adminFunction = (req, res) => {
 };
 
 exports.xorFunction = (req, res) => {
-    const groupNumber = req.body.groupNumber;
-    const attemptAdminPassword = req.body.adminPassword;
+    const groupNumber = String(req.body.groupNumber);
+    const attemptAdminPassword = String(req.body.adminPassword);
 
     const actualAdminPassword = db.groups[groupNumber].adminPassword;
 
     const cipher = utilCheckPwd.checkPwd(attemptAdminPassword, actualAdminPassword);
 
-    if (attemptAdminPassword == actualAdminPassword) {
+    if (cipher == '00000000000000000000000000000000') {
         res.status(200).send({
             message: 'proceed',
         });
