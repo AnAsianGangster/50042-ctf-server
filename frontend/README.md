@@ -1,30 +1,17 @@
 # Foundation-Of-Cybersecurity-CTF
 
 ## Development
+
 Inside the root dir, follow the steps below:
+
 ```
 yarn
 cd server/
 yarn
 yarn dev
 ```
+
 Visit the app on http://localhost:3000/
-
-### Guest Login
-```
-Username: User 1
-Password: user1PW
-```
-
-(Currently we have 5 guest users, check /server/users.js)
-
-Phase 1:
-1) User is provided with username and hashed password.
-2) After user solved the hash, they will login with it and landed at edit profile page.
-
-Phase 2:
-1) Give user the hint about getting admin right in console.
-
 
 # Getting Started with Create React App
 
