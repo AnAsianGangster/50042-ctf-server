@@ -1,5 +1,5 @@
 const db = require('../models/index.model');
-const crypto = require('crypto');
+const logger = require('../config/logger');
 
 const utilCaesar = require('./util/caesar.controllers.util');
 const utilCheckPwd = require('./util/checkPwd.controllers.util');
@@ -15,11 +15,13 @@ exports.loginFunction = (req, res) => {
         res.status(200).send({
             message: 'proceed',
         });
+        logger.log('info', `group ${groupNumber} has successfully login`);
         return;
     } else {
         res.status(250).send({
             message: 'incorrect password',
         });
+        logger.log('info', `group ${groupNumber} has failed login`);
         return;
     }
 };
@@ -37,12 +39,14 @@ exports.xorFunction = (req, res) => {
             message: 'proceed',
             role: 'admin',
         });
+        logger.log('info', `group ${groupNumber} has successfully cracked XOR`);
         return;
     } else {
         res.status(250).send({
             cipher: cipher,
             role: 'user',
         });
+        logger.log('info', `group ${groupNumber} has failed cracking XOR`);
         return;
     }
 };
@@ -64,11 +68,13 @@ exports.caesarFunction = (req, res) => {
         res.status(200).send({
             flag: flag,
         });
+        logger.log('info', `group ${groupNumber} has successfully get the flag`);
         return;
     } else {
         res.status(250).send({
             cipher: cipher,
         });
+        logger.log('info', `group ${groupNumber} has failed cracked caesar cipher`);
         return;
     }
 };
